@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FloresArte — Catálogo de flores artificiales con entrega a domicilio.">
+  <title>FloresArte — Flores Artificiales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a href="#contenido-principal" class="skip-link">Saltar al contenido principal</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-verde sticky-top" role="navigation" aria-label="Menú principal">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#" aria-label="FloresArte - Inicio">
+      🌸 FloresArte
+    </a>
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#menuNavbar"
+            aria-controls="menuNavbar" aria-expanded="false"
+            aria-label="Abrir o cerrar el menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menuNavbar">
+      <ul class="navbar-nav ms-auto gap-1" role="list">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" onclick="showPage('catalogo')" id="nav-catalogo" aria-current="page">
+            <i class="bi bi-grid" aria-hidden="true"></i> Catálogo
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showPage('carrito')" id="nav-carrito">
+            <i class="bi bi-cart3" aria-hidden="true"></i> Mi Pedido
+            <span class="badge bg-danger d-none ms-1" id="cart-badge">0</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showPage('seguimiento')" id="nav-seguimiento">
+            <i class="bi bi-truck" aria-hidden="true"></i> Seguimiento
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showPage('admin')" id="nav-admin">
+            <i class="bi bi-gear" aria-hidden="true"></i> Admin
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main id="contenido-principal" tabindex="-1">
+
+  <!-- CATÁLOGO -->
+  <section id="page-catalogo" class="page" aria-label="Catálogo de productos">
+    <div class="hero-bg">
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <div class="col-lg-7 text-white">
+            <p class="text-uppercase small fw-semibold mb-2" style="letter-spacing:.1em;color:#86efac">
+              🌿 Flores artificiales &amp; artesanías
+            </p>
+            <h1 class="display-5 fw-bold mb-3">Belleza que dura para siempre</h1>
+            <p class="mb-4 fs-5" style="color:rgba(255,255,255,.75)">
+              Arreglos florales para toda ocasión — fúnebres, aniversarios, cumpleaños y decoración. Con entrega a domicilio.
+            </p>
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-success btn-lg fw-semibold"
+                      onclick="document.getElementById('seccion-filtros').scrollIntoView({behavior:'smooth'})">
+                <i class="bi bi-grid" aria-hidden="true"></i> Ver catálogo
+              </button>
+              <button class="btn btn-outline-light btn-lg" onclick="showPage('seguimiento')">
+                <i class="bi bi-truck" aria-hidden="true"></i> Rastrear pedido
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-5 d-none d-lg-block text-center" aria-hidden="true">
+            <div class="hero-flores">🌹💐🌸🌺🌻🌼</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-4" id="seccion-filtros">
+      <div class="row mb-3">
+        <div class="col-12 col-md-7 col-lg-5">
+          <label for="buscador" class="visually-hidden">Buscar productos</label>
+          <div class="input-group input-group-lg">
+            <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
+            <input type="search" id="buscador" class="form-control"
+                   placeholder="Buscar por nombre o categoría..."
+                   aria-label="Buscar en el catálogo"
+                   oninput="filtrarProductos()">
+          </div>
+        </div>
+      </div>
+      <div class="mb-4" role="group" aria-label="Filtrar por categoría">
+        <div class="d-flex flex-wrap gap-2" id="filtros"></div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3"
+           id="grid-productos" aria-live="polite" aria-label="Productos disponibles">
+      </div>
+    </div>
+  </section>
+
+  <!-- CARRITO -->
+  <section id="page-carrito" class="page d-none" aria-label="Mi pedido">
+    <div class="container py-4">
+      <div id="vista-carrito">
+        <h1 class="h4 fw-semibold mb-4">
+          <i class="bi bi-cart3 text-success" aria-hidden="true"></i> Mi pedido
+        </h1>
+        <div id="contenido-carrito"></div>
+      </div>
+      <div id="vista-checkout" class="d-none">
+        <h1 class="h4 fw-semibold mb-4">
+          <i class="bi bi-clipboard-check text-success" aria-hidden="true"></i> Datos de entrega
+        </h1>
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="card shadow-sm border-0">
+              <div class="card-body p-4">
+                <fieldset>
+                  <legend class="h6 fw-semibold mb-3">Información de contacto</legend>
+                  <div class="row g-3">
+                    <div class="col-sm-6">
+                      <label for="c-nombre" class="form-label">
+                        Nombre completo <span class="text-danger" aria-label="obligatorio">*</span>
+                      </label>
+                      <input type="text" id="c-nombre" class="form-control"
+                             placeholder="Ej: María García"
+                             autocomplete="name" aria-required="true"
+                             aria-describedby="ayuda-nombre">
+                      <div id="ayuda-nombre" class="form-text">Tu nombre para la entrega.</div>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="c-telefono" class="form-label">
+                        Teléfono / WhatsApp <span class="text-danger" aria-label="obligatorio">*</span>
+                      </label>
+                      <input type="tel" id="c-telefono" class="form-control"
+                             placeholder="+51 999 999 999"
+                             autocomplete="tel" aria-required="true">
+                    </div>
+                    <div class="col-12">
+                      <label for="c-direccion" class="form-label">
+                        Dirección de entrega <span class="text-danger" aria-label="obligatorio">*</span>
+                      </label>
+                      <input type="text" id="c-direccion" class="form-control"
+                             placeholder="Calle, número, distrito"
+                             autocomplete="street-address" aria-required="true">
+                    </div>
+                    <div class="col-12">
+                      <label for="c-nota" class="form-label">Nota especial (opcional)</label>
+                      <textarea id="c-nota" class="form-control" rows="2"
+                                placeholder="Color preferido, dedicatoria, horario..."></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="d-flex gap-2 mt-4">
+                  <button class="btn btn-outline-secondary" onclick="volverCarrito()">
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i> Volver
+                  </button>
+                  <button class="btn btn-success flex-fill btn-lg fw-semibold" onclick="confirmarPedido()">
+                    <i class="bi bi-check-circle" aria-hidden="true"></i> Confirmar pedido
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm" style="background:#f0fdf4">
+              <div class="card-body p-4">
+                <h2 class="h6 fw-semibold text-success mb-3">
+                  <i class="bi bi-receipt" aria-hidden="true"></i> Resumen
+                </h2>
+                <div id="resumen-checkout"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="vista-exito" class="d-none text-center py-5">
+        <div style="font-size:4rem" role="img" aria-label="Pedido exitoso">✅</div>
+        <h1 class="h3 fw-bold mt-3 mb-2">¡Pedido registrado!</h1>
+        <p class="text-muted mb-4" id="msg-exito"></p>
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+          <button class="btn btn-success btn-lg" onclick="showPage('seguimiento')">
+            <i class="bi bi-truck" aria-hidden="true"></i> Rastrear pedido
+          </button>
+          <button class="btn btn-outline-secondary btn-lg" onclick="nuevoCarrito()">
+            <i class="bi bi-grid" aria-hidden="true"></i> Seguir comprando
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGUIMIENTO -->
+  <section id="page-seguimiento" class="page d-none" aria-label="Seguimiento de pedidos">
+    <div class="container py-4">
+      <h1 class="h4 fw-semibold mb-4">
+        <i class="bi bi-truck text-success" aria-hidden="true"></i> Estado de mis pedidos
+      </h1>
+      <div class="row mb-4">
+        <div class="col-12 col-md-6">
+          <label for="buscar-pedido" class="visually-hidden">Buscar pedido</label>
+          <div class="input-group">
+            <input type="search" id="buscar-pedido" class="form-control"
+                   placeholder="Busca por nombre o código (PED-...)"
+                   aria-label="Buscar pedido"
+                   oninput="renderPedidos(this.value)">
+            <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+      <div id="lista-pedidos" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="page-admin" class="page d-none" aria-label="Panel de administración">
+    <div class="container py-4">
+      <h1 class="h4 fw-semibold mb-4">
+        <i class="bi bi-speedometer2 text-success" aria-hidden="true"></i> Panel de administración
+      </h1>
+      <div class="row g-3 mb-4" id="admin-stats"></div>
+      <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-pedidos-panel"
+                  role="tab" aria-controls="tab-pedidos-panel" aria-selected="true"
+                  onclick="cargarAdminPedidos()">
+            <i class="bi bi-receipt" aria-hidden="true"></i> Pedidos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-productos-panel"
+                  role="tab" aria-controls="tab-productos-panel" aria-selected="false"
+                  onclick="cargarAdminProductos()">
+            <i class="bi bi-flower1" aria-hidden="true"></i> Productos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-clientes-panel"
+                  role="tab" aria-controls="tab-clientes-panel" aria-selected="false"
+                  onclick="cargarAdminClientes()">
+            <i class="bi bi-people" aria-hidden="true"></i> Clientes
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab-pedidos-panel" role="tabpanel">
+          <div id="contenido-admin-pedidos"></div>
+        </div>
+        <div class="tab-pane fade" id="tab-productos-panel" role="tabpanel">
+          <div id="contenido-admin-productos"></div>
+        </div>
+        <div class="tab-pane fade" id="tab-clientes-panel" role="tabpanel">
+          <div id="contenido-admin-clientes"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer-verde mt-auto" role="contentinfo">
+  <div class="container py-4">
+    <div class="row g-3 text-white">
+      <div class="col-md-4">
+        <h2 class="h6 fw-semibold mb-1">🌸 FloresArte</h2>
+        <p class="small mb-0" style="color:rgba(255,255,255,.6)">Flores artificiales de alta calidad.</p>
+      </div>
+      <div class="col-md-4">
+        <h2 class="h6 fw-semibold mb-1">Accesibilidad</h2>
+        <p class="small mb-0" style="color:rgba(255,255,255,.6)">Sitio accesible WCAG 2.1 AA. Navegación por teclado.</p>
+      </div>
+      <div class="col-md-4">
+        <h2 class="h6 fw-semibold mb-1"><i class="bi bi-globe2" aria-hidden="true"></i> ODS 10</h2>
+        <p class="small mb-0" style="color:rgba(255,255,255,.6)">Reducción de desigualdades digitales.</p>
+      </div>
+    </div>
+    <hr style="border-color:rgba(255,255,255,.2)" class="my-3">
+    <p class="text-center small mb-0" style="color:rgba(255,255,255,.5)">
+      © 2025 FloresArte · Proyecto IHC COMP1302 · Universidad Privada del Norte
+    </p>
+  </div>
+</footer>
+
+<div class="modal fade" id="modalProducto" tabindex="-1"
+     aria-labelledby="modalProductoTitulo" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h2 class="modal-title h5 fw-semibold" id="modalProductoTitulo"></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center fs-1 py-3 bg-light rounded mb-3"
+             id="modal-emoji" role="img" aria-label="Imagen del producto"></div>
+        <p class="fs-4 fw-bold text-success mb-1" id="modal-precio"></p>
+        <p class="text-muted" id="modal-desc"></p>
+        <div id="modal-stock"></div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button class="btn btn-success" id="modal-btn-agregar">
+          <i class="bi bi-cart-plus" aria-hidden="true"></i> Agregar al pedido
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1200">
+  <div id="toast-msg" class="toast align-items-center border-0 text-white"
+       role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body fw-medium" id="toast-texto"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast" aria-label="Cerrar notificación"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/catalogo.js"></script>
+<script src="js/carrito.js"></script>
+<script src="js/seguimiento.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
